@@ -204,6 +204,25 @@ run ``detox`` to execute all the test environments in parallel.  See the
 `tox documentation <https://tox.readthedocs.org/en/latest/>`_ for instructions
 on running a single test case or environment.
 
+Internationalization
+--------------------
+Translations of text that can appear in the profiling results pages are managed
+on `Transifex <https://www.transifex.com/projects/p/yet-another-django-profiler/>`_.
+Feel free to request to be added as translator for a not-yet-supported language.
+Django recommends not translating management command text for
+`assorted technical reasons <https://docs.djangoproject.com/en/1.8/howto/custom-management-commands/#management-commands-and-locales>`_,
+so those phrases currently aren't included.
+
+For development tasks involving the translations (uploading message changes to
+Transifex or fetching the latest translations from it), use
+`transifex-client <http://docs.transifex.com/guides/client>`_.  By default, pip
+installs a rather old stable version so you may want to specify a newer one::
+
+    pip install transifex-client==0.11b3
+
+When running the makemessages or compilemessages management commands, do so
+from the ``yet_another_django_profiler`` directory.
+
 License
 -------
 Due to gprof2dot being licensed under the LGPL v3, that's the license that

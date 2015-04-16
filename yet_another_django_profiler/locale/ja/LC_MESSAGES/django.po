@@ -1,0 +1,56 @@
+# yet-another-django-profiler Japanese translation
+# This software may be modified and distributed under the terms of the 3-clause BSD license.  See the LICENSE file for details.
+#
+# Translators:
+# jmbowman <jmbowman@alum.mit.edu>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: yet-another-django-profiler\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-16 18:21+0000\n"
+"PO-Revision-Date: 2015-04-16 18:15+0000\n"
+"Last-Translator: jmbowman <jmbowman@alum.mit.edu>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/yet-another-"
+"django-profiler/language/ja/)\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: conf.py:86
+#, python-brace-format
+msgid ""
+"Yappi does not work on {platform}, please select a different value for "
+"YADP_PROFILER_BACKEND"
+msgstr ""
+"{platform}ではYappiは使えません。YADP_PROFILER_BACKENDの設定を変えて下さい。"
+
+#: middleware.py:118
+msgid ""
+"Could not find Yappi; please install Yappi to be able to use it for profiling"
+msgstr ""
+"Yappiを見つけられませんでした。プロファイラとして使うにはまずインストールして"
+"下さい。"
+
+#: middleware.py:136
+msgid ""
+"Could not find \"dot\" from Graphviz; please install Graphviz to enable call "
+"graph generation"
+msgstr ""
+"Graphvizのdotを見つけられませんでした。コールグラフを作るにはまずGraphvizをイ"
+"ンストールして下さい。"
+
+#: middleware.py:138
+msgid ""
+"Could not find gprof2dot.py, which should have been installed by yet-another-"
+"django-profiler"
+msgstr ""
+"yet-another-django-profilerがインストールしたはずのgprof2dot.pyを見つけられま"
+"せんでした。"
+
+#: middleware.py:148
+#, fuzzy, python-brace-format
+#| msgid "gprof2dot/dot exited with {return_code}"
+msgid "gprof2dot.py exited with {return_code}"
+msgstr "gprof2dot.pyはエラーコード（{return_code}）を返しました。"
