@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[yet-another-django-profiler.django]
+file_filter = yet_another_django_profiler/locale/<lang>/LC_MESSAGES/django.po
+source_file = yet_another_django_profiler/locale/en/LC_MESSAGES/django.po
+source_lang = en
+type = PO
+

@@ -21,6 +21,7 @@ import tempfile
 
 from django.core.exceptions import MiddlewareNotUsed
 from django.utils.six.moves import cStringIO as StringIO
+from django.utils.translation import ugettext as _
 
 from .conf import settings
 
@@ -114,7 +115,7 @@ class ProfilerMiddleware(object):
                     self.profiler = YappiProfile()
                 except Exception as e:
                     log.exception(e)
-                    self.error = 'Could not find Yappi; please install Yappi to be able to use it for profiling'
+                    self.error = _('Could not find Yappi; please install Yappi to be able to use it for profiling')
                     return None
             else:
                 self.profiler = cProfile.Profile()
@@ -132,9 +133,9 @@ class ProfilerMiddleware(object):
                 mode = 'fil'
             if not mode:
                 if not which('dot'):
-                    return text_response(response, 'Could not find "dot" from Graphviz; please install Graphviz to enable call graph generation')
+                    return text_response(response, _('Could not find "dot" from Graphviz; please install Graphviz to enable call graph generation'))
                 if not which('gprof2dot.py'):
-                    return text_response(response, 'Could not find gprof2dot.py, which should have been installed by yet-another-django-profiler')
+                    return text_response(response, _('Could not find gprof2dot.py, which should have been installed by yet-another-django-profiler'))
                 with tempfile.NamedTemporaryFile() as stats:
                     stats.write(marshal.dumps(self.profiler.stats))
                     stats.flush()
@@ -144,7 +145,7 @@ class ProfilerMiddleware(object):
                     output = process.communicate()[0]
                     return_code = process.poll()
                     if return_code:
-                        raise Exception('gprof2dot/dot exited with {}'.format(return_code))
+                        raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code))
                 response.content = output
                 response['Content-Type'] = 'application/pdf'
                 return response
