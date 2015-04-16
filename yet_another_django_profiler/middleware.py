@@ -145,7 +145,7 @@ class ProfilerMiddleware(object):
                     output = process.communicate()[0]
                     return_code = process.poll()
                     if return_code:
-                        raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code))
+                        raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code=return_code))
                 response.content = output
                 response['Content-Type'] = 'application/pdf'
                 return response
