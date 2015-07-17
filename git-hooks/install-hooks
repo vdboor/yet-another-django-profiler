@@ -3,6 +3,8 @@
 # Created by Jeremy Bowman on Thu Feb 12 15:44:13 EST 2015
 # Copyright (c) 2015 Safari Books Online. All rights reserved.
 
+from __future__ import print_function, unicode_literals
+
 import os
 
 
@@ -19,9 +21,9 @@ def install_hooks():
                 destination = os.path.join(hook_dir, hook_name)
                 os.symlink(source, destination)
             except OSError:
-                print '%s hook already exists. Skipping.' % hook_name
+                print('%s hook already exists. Skipping.' % hook_name)
             else:
-                print 'Created %s git hook.' % hook_name
+                print('Created %s git hook.' % hook_name)
 
 if __name__ == '__main__':
     install_hooks()

@@ -2,36 +2,32 @@
 
 # Indirect dependencies first, exact versions for consistency
 
+# ipdb -> ipython
+gnureadline==6.3.3; sys_platform == 'darwin' and platform_python_implementation != 'PyPy'
+
+# ipdb
+ipython==3.2.1; platform_python_implementation != 'PyPy'
+
 # pytest-cov -> cov-core
 coverage==3.7.1
 
 # pytest-cov -> pytest, detox -> tox
-py==1.4.26
+py==1.4.30
 
 # pytest-cov
 cov-core==1.15.0
-pytest==2.7.0
+pytest==2.7.2
 
 # pytest-xdist
 execnet==1.3.0
 
-# detox -> eventlet
-greenlet==0.4.5
-
-# detox -> tox
-virtualenv==12.1.1
-
-# detox
-eventlet==0.17.3
-tox==1.9.2
-
 # And now the direct dependencies
 
-# For managing test environments and running them in parallel
-detox==0.9.4
+# For better debugging
+ipdb==0.8.1; platform_python_implementation != 'PyPy'
 
 # Show log output for test failures
-pytest-capturelog==0.7
+pytest-catchlog==1.1
 
 # For code coverage statistics generation
 pytest-cov==1.8.1
@@ -43,4 +39,4 @@ pytest-django==2.8.0
 pytest-xdist==1.11
 
 # For testing the Yappi profiler backend
-yappi==0.94
+yappi==0.94; platform_python_implementation == 'CPython' and (python_version == '2.7' or python_version > '3.2')

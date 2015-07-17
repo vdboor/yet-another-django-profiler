@@ -13,12 +13,16 @@ from __future__ import unicode_literals
 import atexit
 import cProfile
 import marshal
-import mock
 from optparse import make_option
 import pstats
 import subprocess
 import sys
 import tempfile
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 import django
 from django.conf import settings as django_settings

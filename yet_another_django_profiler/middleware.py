@@ -13,11 +13,15 @@ from __future__ import unicode_literals
 import cProfile
 import logging
 import marshal
-import mock
 import os
 import pstats
 import subprocess
 import tempfile
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from django.core.exceptions import MiddlewareNotUsed
 from django.utils.six.moves import cStringIO as StringIO
