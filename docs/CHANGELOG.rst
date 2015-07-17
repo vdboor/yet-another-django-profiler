@@ -1,6 +1,13 @@
 yet-another-django-profiler Changelog
 =====================================
 
+1.0.0 (2015-07-17)
+------------------
+* Support for Django 1.8
+* Support for Python 3 and PyPy
+* Option to use Yappi instead of cProfile as the profiler
+* Internationalization (English and Japanese for now, other languages welcome)
+
 0.3.0 (2015-02-23)
 ------------------
 * Added "profile" management command for profiling other management commands

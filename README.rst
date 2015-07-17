@@ -1,39 +1,38 @@
 yet-another-django-profiler README
 ==================================
 
+.. image:: https://img.shields.io/pypi/v/yet-another-django-profiler.svg
+    :target: https://pypi.python.org/pypi/yet-another-django-profiler/
+
 .. image:: https://travis-ci.org/safarijv/yet-another-django-profiler.svg?branch=master
     :target: https://travis-ci.org/safarijv/yet-another-django-profiler
 
 .. image:: https://coveralls.io/repos/safarijv/yet-another-django-profiler/badge.svg
     :target: https://coveralls.io/r/safarijv/yet-another-django-profiler
 
-.. image:: https://pypip.in/py_versions/yet-another-django-profiler/badge.svg
+.. image:: https://img.shields.io/pypi/pyversions/yet-another-django-profiler.svg
     :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: Supported Python versions
 
-.. image:: https://pypip.in/implementation/yet-another-django-profiler/badge.svg
+.. image:: https://img.shields.io/pypi/implementation/yet-another-django-profiler.svg
     :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: Supported Python implementations
 
-.. image:: https://pypip.in/license/yet-another-django-profiler/badge.svg
+.. image:: https://img.shields.io/pypi/l/yet-another-django-profiler.svg
     :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: License
 
-.. image:: https://pypip.in/download/yet-another-django-profiler/badge.svg
-    :target: https://pypi.python.org/pypi//yet-another-django-profiler/
+.. image:: https://img.shields.io/pypi/dm/yet-another-django-profiler.svg
+    :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: Downloads
 
-.. image:: https://pypip.in/status/yet-another-django-profiler/badge.svg
+.. image:: https://img.shields.io/pypi/status/yet-another-django-profiler.svg
     :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: Development Status
 
-.. image:: https://pypip.in/wheel/yet-another-django-profiler/badge.svg
+.. image:: https://img.shields.io/pypi/wheel/yet-another-django-profiler.svg
     :target: https://pypi.python.org/pypi/yet-another-django-profiler/
     :alt: Wheel Status
-
-.. image:: https://pypip.in/egg/yet-another-django-profiler/badge.svg
-    :target: https://pypi.python.org/pypi/yet-another-django-profiler/
-    :alt: Egg Status
 
 Yet Another Django Profiler attempts to combine the best features of assorted
 other Django profiling utilities that have been created over the years.

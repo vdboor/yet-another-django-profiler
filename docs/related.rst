@@ -10,19 +10,19 @@ years.  Here are some of the ones I directly took inspiration from:
   `cProfile <http://docs.python.org/2/library/profile.html#module-cProfile>`_
   profiler
 
-* This other `ProfileMiddleware <https://djangosnippets.org/snippets/2998/>`_
+* This other `ProfileMiddleware <https://djangosnippets.org/snippets/2998/>`__
   got really fancy with the sorting options, but lacks a couple of the other
   features the one above has
 
 * `geordi <https://bitbucket.org/brodie/geordi>`_ introduced using
-  `Graphviz <http://www.graphviz.org>`_ and
+  `Graphviz <http://www.graphviz.org>`__ and
   `Gprof2Dot <https://code.google.com/p/jrfonseca/wiki/Gprof2Dot>`_ to
   generate call graph PDFs
 
 Honorable mentions
 ------------------
 
-* `This ProfileMiddleware <https://djangosnippets.org/snippets/70/>`_ uses the
+* `This ProfileMiddleware <https://djangosnippets.org/snippets/70/>`__ uses the
   older `hotshot <http://docs.python.org/2/library/hotshot.html#module-hotshot>`_
   profiler and writes the raw profiling data of all requests while active to
   disk
@@ -31,11 +31,11 @@ Honorable mentions
   still uses the hotshot profiler, but uses a GET parameter and returns the
   profiling data summary in the browser
 
-* And `this ProfileMiddleware <https://djangosnippets.org/snippets/605/>`_
+* And `this ProfileMiddleware <https://djangosnippets.org/snippets/605/>`__
   again uses the hotshot profiler and a GET parameter, but is a little
   fancier with the summary formatting
 
-* This `ProfilerMiddleware <https://djangosnippets.org/snippets/727/>`_ was
+* This `ProfilerMiddleware <https://djangosnippets.org/snippets/727/>`__ was
   one of the first ones to use cProfile; GET parameter and in-browser data
   summary
 
@@ -43,7 +43,7 @@ Honorable mentions
   previous ProfilerMiddleware added the ability to sort the summary by the
   specified column
 
-* `ProfilerMiddleware <https://github.com/omarish/django-cprofile-middleware>`_
+* `ProfilerMiddleware <https://github.com/omarish/django-cprofile-middleware>`__
   was packaged fairly nicely, uses cProfile, and allows sorting of the summary
   table
 
@@ -55,7 +55,7 @@ It's meant to be run from the command line and does not provide convenient
 hooks for customization, so a slightly modified version of the script has been
 bundled in the yet-another-django-profiler distribution.
 
-`Graphviz <http://www.graphviz.org/>`_ is the graph visualization library
+`Graphviz <http://www.graphviz.org/>`__ is the graph visualization library
 used by Gprof2dot to do the graphics work.  It's a native library that needs
 to be installed in a manner typical for the system it's running on, so that
 needs to be done separately from the installation of this library (but isn't
