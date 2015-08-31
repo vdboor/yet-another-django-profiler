@@ -16,3 +16,4 @@ ve
 .ropeproject
 .settings
 .coverage
+*.swp

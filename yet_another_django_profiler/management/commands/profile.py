@@ -40,6 +40,7 @@ OPTIONS = (
     (('-m', '--max-calls'), {'dest': 'max_calls', 'help': 'The maximum number of function calls to display'}),
     (('-p', '--pattern'), {'dest': 'pattern', 'help': 'Regular expression filter for function display names'}),
     (('-b', '--backend'), {'dest': 'backend', 'default': 'cProfile', 'help': 'Profiler backend to use (cProfile or yappi)'}),
+    (('-c', '--clock'), {'dest': 'clock', 'default': 'cpu', 'help': 'Yappi clock type to use (cpu or wall)'}),
 )
 
 
@@ -102,7 +103,7 @@ class Command(BaseCommand):
 
         if options['backend'] == 'yappi' or (settings.YADP_PROFILER_BACKEND == 'yappi' and not options['backend']):
             import yet_another_django_profiler.yadp_yappi as yadp_yappi
-            profiler = yadp_yappi.YappiProfile()
+            profiler = yadp_yappi.YappiProfile(wall=options['clock'] == 'wall')
         else:
             profiler = cProfile.Profile()
 

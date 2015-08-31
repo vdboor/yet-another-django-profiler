@@ -88,6 +88,11 @@ class ManagementCommandCases(object):
         output = self._run_command(sort='time')
         assert 'Ordered by: internal time' in output
 
+    def test_calls_by_time(self):
+        """Using "-s time" should show a table of function calls sorted by internal time"""
+        output = self._run_command(sort='time', clock='wall')
+        assert 'Ordered by: internal time' in output
+
     def test_default_fraction(self):
         """By default, the fraction of displayed function calls should be 0.2"""
         output = self._run_command(sort='time')

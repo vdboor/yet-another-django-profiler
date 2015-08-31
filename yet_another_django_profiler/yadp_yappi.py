@@ -12,8 +12,9 @@ class YappiProfile(object):
     """ Wrapper class that represents Yappi profiling backend with API matching
         the cProfile.
     """
-    def __init__(self):
+    def __init__(self, wall=None):
         self.stats = None
+        self.wall = wall
 
     def runcall(self, func, *args, **kw):
         self.enable()
@@ -23,6 +24,9 @@ class YappiProfile(object):
             self.disable()
 
     def enable(self):
+        if self.wall:
+            yappi.clear_stats()
+            yappi.set_clock_type("wall")
         yappi.start()
 
     def disable(self):

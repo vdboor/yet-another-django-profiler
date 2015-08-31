@@ -81,6 +81,11 @@ class ParameterCases(object):
         response = self._get_test_page('profile=time')
         self.assertContains(response, 'Ordered by: internal time')
 
+    def test_calls_by_clock(self):
+        """Using profile=time should show a table of function calls sorted by internal time"""
+        response = self._get_test_page('profile=time&clock=wall')
+        self.assertContains(response, 'Ordered by: internal time')
+
     def test_help(self):
         """Using profile=help should yield usage instructions"""
         response = self._get_test_page('profile=help')
