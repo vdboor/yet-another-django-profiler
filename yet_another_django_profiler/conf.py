@@ -80,6 +80,10 @@ class LazySettings(object):
         return getattr(django_settings, 'YADP_PROFILE_PARAMETER', 'profile')
 
     @property
+    def YADP_CLOCK_PARAMETER(self):
+        return getattr(django_settings, 'YADP_CLOCK_PARAMETER', 'clock')
+
+    @property
     def YADP_PROFILER_BACKEND(self):
         backend = getattr(django_settings, 'YADP_PROFILER_BACKEND', 'cProfile')
         if backend == 'yappi':

@@ -116,7 +116,8 @@ class ProfilerMiddleware(object):
             if settings.YADP_PROFILER_BACKEND == 'yappi':
                 try:
                     from .yadp_yappi import YappiProfile
-                    self.profiler = YappiProfile()
+                    wall = request.REQUEST.get(settings.YADP_CLOCK_PARAMETER, None) == 'wall'
+                    self.profiler = YappiProfile(wall=wall)
                 except Exception as e:
                     log.exception(e)
                     self.error = _('Could not find Yappi; please install Yappi to be able to use it for profiling')

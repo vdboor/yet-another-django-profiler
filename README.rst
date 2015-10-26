@@ -96,7 +96,8 @@ instead specify a maximum number of function calls to display using the
 ``pattern`` parameter, only calls of functions whose names match the
 specified pattern will be displayed.  (I'd recommend sticking to basic
 sub-strings unless you really enjoy figuring out how to URL-escape special
-characters.)
+characters.) By default when using yappi it will use `cpu` clock type if
+what you want is `wall` time you can use ``clock=wall``.
 
 If you forget the available sorting options and such, you can use
 ``profile=help`` as a request parameter to display the usage instructions in
@@ -107,40 +108,53 @@ Management Command Usage
 yet-another-django-profiler includes a ``profile`` management command which can
 be used to profile other Django management commands::
 
-    Usage: django-admin.py profile [options] other_command <argument argument ...>
+
+    usage: manage.py profile [-h] [--version] [-v {0,1,2,3}] [--settings SETTINGS]
+                             [--pythonpath PYTHONPATH] [--traceback] [--no-color]
+                             [-o PATH] [-s SORT] [-f FRACTION] [-m MAX_CALLS]
+                             [-p PATTERN] [-b BACKEND] [-c CLOCK]
+                             [args [args ...]]
 
     Profile another Django management command
 
-    Options:
-      -v VERBOSITY, --verbosity=VERBOSITY
+    positional arguments:
+      args
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --version             show program's version number and exit
+      -v {0,1,2,3}, --verbosity {0,1,2,3}
                             Verbosity level; 0=minimal output, 1=normal output,
                             2=verbose output, 3=very verbose output
-      --settings=SETTINGS   The Python path to a settings module, e.g.
+      --settings SETTINGS   The Python path to a settings module, e.g.
                             "myproject.settings.main". If this isn't provided, the
                             DJANGO_SETTINGS_MODULE environment variable will be
                             used.
-      --pythonpath=PYTHONPATH
+      --pythonpath PYTHONPATH
                             A directory to add to the Python path, e.g.
                             "/home/djangoprojects/myproject".
-      --traceback           Raise on exception
-      -o PATH, --output=PATH
+      --traceback           Raise on CommandError exceptions
+      --no-color            Don't colorize the command output.
+      -o PATH, --output PATH
                             Path to a file in which to store the profiling output
                             (required if generating a call graph PDF, other
                             results are output to the console by default)
-      -s SORT, --sort=SORT  Statistic by which to sort the profiling data (default
+      -s SORT, --sort SORT  Statistic by which to sort the profiling data (default
                             is to generate a call graph PDF instead)
-      -f FRACTION, --fraction=FRACTION
+      -f FRACTION, --fraction FRACTION
                             The fraction of total function calls to display (the
                             default of .2 is omitted if max-calls or pattern are
                             specified)
-      -m MAX_CALLS, --max-calls=MAX_CALLS
+      -m MAX_CALLS, --max-calls MAX_CALLS
                             The maximum number of function calls to display
-      -p PATTERN, --pattern=PATTERN
+      -p PATTERN, --pattern PATTERN
                             Regular expression filter for function display names
-      -b BACKEND, --backend=BACKEND
+      -b BACKEND, --backend BACKEND
                             Profiler backend to use (cProfile or yappi)
-      --version             show program's version number and exit
-      -h, --help            show this help message and exit
+      -c CLOCK, --clock CLOCK
+                            Yappi clock type to use (cpu or wall)
+
+
 
 Sample usage:
 
@@ -167,6 +181,8 @@ following settings:
 * ``YADP_MAX_CALLS_PARAMETER`` (default is "max_calls")
 
 * ``YADP_PATTERN_PARAMETER`` (default is "pattern")
+
+* ``YADP_CLOCK_PARAMETER`` (default is "cpu")
 
 You can use Yappi (`Yet Another Python Profiler <https://code.google.com/p/yappi/>`_)
 as a profiler backend instead of cProfile. To do that just specify
