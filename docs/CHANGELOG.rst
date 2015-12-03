@@ -1,6 +1,10 @@
 yet-another-django-profiler Changelog
 =====================================
 
+1.0.2 (2015-12-03)
+------------------
+* Upgraded Django for security fixes (FR-369)
+
 1.0.1 (2015-08-15)
 ------------------
 * Add URL and command line parameter for yappi clock type
