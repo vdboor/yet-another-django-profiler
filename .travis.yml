@@ -4,7 +4,9 @@ addons:
   apt:
     packages:
     - graphviz
-python: 2.7
+python:
+  - 2.7
+  - 3.5
 env:
   - TOX_ENV=py27-django15
   - TOX_ENV=py27-django16
