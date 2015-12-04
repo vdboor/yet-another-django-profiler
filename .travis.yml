@@ -2,7 +2,7 @@ language: python
 sudo: false
 addons:
   apt:
-    source:
+    sources:
       - deadsnakes
     packages:
       - graphviz
