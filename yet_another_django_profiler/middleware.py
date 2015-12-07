@@ -38,6 +38,26 @@ def func_strip_path(func_name):
     return settings.path_to_module_function(filename), line, name
 
 
+def in_request(request, parameter):
+    """Determine if the request contains the specified parameter, whether it's
+    a GET or a POST."""
+    if request.method == 'GET':
+        return parameter in request.GET
+    if request.method == 'POST':
+        return parameter in request.POST
+    return False
+
+
+def get_parameter(request, parameter):
+    """Get the specified parameter from the request, whether it's a GET or a
+    POST.  Returns `None` if it is not present."""
+    if request.method == 'GET':
+        return request.GET.get(parameter, None)
+    if request.method == 'POST':
+        return request.POST.get(parameter, None)
+    return None
+
+
 def text_response(response, content):
     """Return a plain text message as the response content."""
     response.content = content
@@ -111,12 +131,12 @@ class ProfilerMiddleware(object):
         self.profiler = None
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
-        if settings.YADP_ENABLED and (settings.YADP_PROFILE_PARAMETER in request.REQUEST):
+        if settings.YADP_ENABLED and in_request(request, settings.YADP_PROFILE_PARAMETER):
             self.error = None
             if settings.YADP_PROFILER_BACKEND == 'yappi':
                 try:
                     from .yadp_yappi import YappiProfile
-                    wall = request.REQUEST.get(settings.YADP_CLOCK_PARAMETER, None) == 'wall'
+                    wall = get_parameter(request, settings.YADP_CLOCK_PARAMETER) == 'wall'
                     self.profiler = YappiProfile(wall=wall)
                 except Exception as e:
                     log.exception(e)
@@ -128,11 +148,11 @@ class ProfilerMiddleware(object):
             return self.profiler.runcall(callback, *args, **callback_kwargs)
 
     def process_response(self, request, response):
-        if settings.YADP_ENABLED and settings.YADP_PROFILE_PARAMETER in request.REQUEST:
+        if settings.YADP_ENABLED and in_request(request, settings.YADP_PROFILE_PARAMETER):
             if self.error:
                 return text_response(response, self.error)
             self.profiler.create_stats()
-            mode = request.REQUEST[settings.YADP_PROFILE_PARAMETER]
+            mode = get_parameter(request, settings.YADP_PROFILE_PARAMETER)
             if mode == 'file':
                 # Work around bug on Python versions >= 2.7.4
                 mode = 'fil'
@@ -164,13 +184,13 @@ class ProfilerMiddleware(object):
                     mock_func_strip_path.side_effect = func_strip_path
                     stats.strip_dirs()
                 restrictions = []
-                if settings.YADP_PATTERN_PARAMETER in request.REQUEST:
-                    restrictions.append(request.REQUEST[settings.YADP_PATTERN_PARAMETER])
-                if settings.YADP_FRACTION_PARAMETER in request.REQUEST:
-                    restrictions.append(float(request.REQUEST[settings.YADP_FRACTION_PARAMETER]))
-                elif settings.YADP_MAX_CALLS_PARAMETER in request.REQUEST:
-                    restrictions.append(int(request.REQUEST[settings.YADP_MAX_CALLS_PARAMETER]))
-                elif settings.YADP_PATTERN_PARAMETER not in request.REQUEST:
+                if in_request(request, settings.YADP_PATTERN_PARAMETER):
+                    restrictions.append(get_parameter(request, settings.YADP_PATTERN_PARAMETER))
+                if in_request(request, settings.YADP_FRACTION_PARAMETER):
+                    restrictions.append(float(get_parameter(request, settings.YADP_FRACTION_PARAMETER)))
+                elif in_request(request, settings.YADP_MAX_CALLS_PARAMETER):
+                    restrictions.append(int(get_parameter(request, settings.YADP_MAX_CALLS_PARAMETER)))
+                elif not in_request(request, settings.YADP_PATTERN_PARAMETER):
                     restrictions.append(.2)
                 stats.sort_stats(mode).print_stats(*restrictions)
                 return text_response(response, out.getvalue())

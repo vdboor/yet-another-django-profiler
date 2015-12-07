@@ -18,17 +18,17 @@ simplegeneric==0.8.1; platform_python_implementation != 'PyPy'
 traitlets==4.0.0; platform_python_implementation != 'PyPy'
 
 # ipdb
-ipython==4.0.0; platform_python_implementation != 'PyPy'
+ipython==4.0.1; platform_python_implementation != 'PyPy'
 
 # pytest-cov -> cov-core
-coverage==4.0.1
+coverage==4.0.3
 
 # pytest-cov -> pytest, detox -> tox
-py==1.4.30
+py==1.4.31
 
 # pytest-cov
 cov-core==1.15.0
-pytest==2.8.2
+pytest==2.8.4
 
 # pytest-xdist
 execnet==1.4.1
@@ -39,7 +39,7 @@ execnet==1.4.1
 ipdb==0.8.1; platform_python_implementation != 'PyPy'
 
 # Show log output for test failures
-pytest-catchlog==1.1
+pytest-catchlog==1.2.0
 
 # For code coverage statistics generation
 pytest-cov==2.2.0
@@ -51,4 +51,4 @@ pytest-django==2.9.1
 pytest-xdist==1.13.1
 
 # For testing the Yappi profiler backend
-yappi==0.94; platform_python_implementation == 'CPython' and (python_version == '2.7' or python_version > '3.2')
+yappi==0.94; platform_python_implementation == 'CPython' and (python_version == '2.7' or (python_version > '3.2' and python_version < '3.5'))

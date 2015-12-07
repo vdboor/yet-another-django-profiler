@@ -10,6 +10,7 @@ Custom Django settings for Yet Another Django Profiler middleware
 
 from __future__ import unicode_literals
 
+from importlib import import_module
 import os
 import platform
 import re
@@ -18,7 +19,6 @@ import sys
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.functional import cached_property
-from django.utils.importlib import import_module
 from django.utils.translation import ugettext as _
 
 DEFAULT_MODULE_PARENT_DIR_PATTERNS = [
