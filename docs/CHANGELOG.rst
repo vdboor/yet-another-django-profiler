@@ -1,7 +1,7 @@
 yet-another-django-profiler Changelog
 =====================================
 
-1.0.2 (2015-12-07)
+1.0.2 (2015-12-08)
 ------------------
 * Support for Django 1.9
 
