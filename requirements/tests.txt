@@ -6,19 +6,19 @@
 path.py==8.1.2; platform_python_implementation != 'PyPy'
 
 # ipdb -> ipython -> traitlets
-decorator==4.0.4; platform_python_implementation != 'PyPy'
+decorator==4.0.6; platform_python_implementation != 'PyPy'
 ipython-genutils==0.1.0; platform_python_implementation != 'PyPy'
 
 # ipdb -> ipython
 appnope==0.1.0; sys_platform == 'darwin' and platform_python_implementation != 'PyPy'
 gnureadline==6.3.3; sys_platform == 'darwin' and platform_python_implementation != 'PyPy'
 pexpect==3.3; sys_platform != 'win32' and platform_python_implementation != 'PyPy'
-pickleshare==0.5; platform_python_implementation != 'PyPy'
+pickleshare==0.6; platform_python_implementation != 'PyPy'
 simplegeneric==0.8.1; platform_python_implementation != 'PyPy'
-traitlets==4.0.0; platform_python_implementation != 'PyPy'
+traitlets==4.1.0; platform_python_implementation != 'PyPy'
 
 # ipdb
-ipython==4.0.1; platform_python_implementation != 'PyPy'
+ipython==4.0.3; platform_python_implementation != 'PyPy'
 
 # pytest-cov -> cov-core
 coverage==4.0.3
@@ -28,7 +28,7 @@ py==1.4.31
 
 # pytest-cov
 cov-core==1.15.0
-pytest==2.8.4
+pytest==2.8.7
 
 # pytest-xdist
 execnet==1.4.1
@@ -39,7 +39,7 @@ execnet==1.4.1
 ipdb==0.8.1; platform_python_implementation != 'PyPy'
 
 # Show log output for test failures
-pytest-catchlog==1.2.0
+pytest-catchlog==1.2.2
 
 # For code coverage statistics generation
 pytest-cov==2.2.0

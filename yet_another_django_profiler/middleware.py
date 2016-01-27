@@ -48,16 +48,6 @@ def in_request(request, parameter):
     return False
 
 
-def get_parameter(request, parameter):
-    """Get the specified parameter from the request, whether it's a GET or a
-    POST.  Returns `None` if it is not present."""
-    if request.method == 'GET':
-        return request.GET.get(parameter, None)
-    if request.method == 'POST':
-        return request.POST.get(parameter, None)
-    return None
-
-
 def text_response(response, content):
     """Return a plain text message as the response content."""
     response.content = content
@@ -129,14 +119,41 @@ class ProfilerMiddleware(object):
             raise MiddlewareNotUsed()
         self.error = None
         self.profiler = None
+        self.parameters = None
+        self.clock_parameter = None
+        self.fraction_parameter = None
+        self.max_calls_parameter = None
+        self.pattern_parameter = None
+        self.profile_parameter = None
+
+    def get_parameter(self, name):
+        """Get the specified parameter from the request, whether it's a GET or a
+        POST, and then removes it so it doesn't interfere with the view's
+        normal operation.  Returns `None` if it is not present."""
+        if self.parameters is None or name not in self.parameters:
+            return None
+        value = self.parameters.get(name, None)
+        self.parameters.pop(name)
+        return value
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
+        self.profile_parameter = None
         if settings.YADP_ENABLED and in_request(request, settings.YADP_PROFILE_PARAMETER):
             self.error = None
+            if request.method == 'GET':
+                self.parameters = request.GET.copy()
+                request.GET = self.parameters
+            elif request.method == 'POST':
+                self.parameters = request.POST.copy()
+                request.POST = self.parameters
+            self.fraction_parameter = self.get_parameter(settings.YADP_FRACTION_PARAMETER)
+            self.max_calls_parameter = self.get_parameter(settings.YADP_MAX_CALLS_PARAMETER)
+            self.pattern_parameter = self.get_parameter(settings.YADP_PATTERN_PARAMETER)
+            self.profile_parameter = self.get_parameter(settings.YADP_PROFILE_PARAMETER)
             if settings.YADP_PROFILER_BACKEND == 'yappi':
                 try:
                     from .yadp_yappi import YappiProfile
-                    wall = get_parameter(request, settings.YADP_CLOCK_PARAMETER) == 'wall'
+                    wall = self.get_parameter(settings.YADP_CLOCK_PARAMETER) == 'wall'
                     self.profiler = YappiProfile(wall=wall)
                 except Exception as e:
                     log.exception(e)
@@ -148,11 +165,11 @@ class ProfilerMiddleware(object):
             return self.profiler.runcall(callback, *args, **callback_kwargs)
 
     def process_response(self, request, response):
-        if settings.YADP_ENABLED and in_request(request, settings.YADP_PROFILE_PARAMETER):
+        if self.profile_parameter is not None:
             if self.error:
                 return text_response(response, self.error)
             self.profiler.create_stats()
-            mode = get_parameter(request, settings.YADP_PROFILE_PARAMETER)
+            mode = self.profile_parameter
             if mode == 'file':
                 # Work around bug on Python versions >= 2.7.4
                 mode = 'fil'
@@ -184,13 +201,13 @@ class ProfilerMiddleware(object):
                     mock_func_strip_path.side_effect = func_strip_path
                     stats.strip_dirs()
                 restrictions = []
-                if in_request(request, settings.YADP_PATTERN_PARAMETER):
-                    restrictions.append(get_parameter(request, settings.YADP_PATTERN_PARAMETER))
-                if in_request(request, settings.YADP_FRACTION_PARAMETER):
-                    restrictions.append(float(get_parameter(request, settings.YADP_FRACTION_PARAMETER)))
-                elif in_request(request, settings.YADP_MAX_CALLS_PARAMETER):
-                    restrictions.append(int(get_parameter(request, settings.YADP_MAX_CALLS_PARAMETER)))
-                elif not in_request(request, settings.YADP_PATTERN_PARAMETER):
+                if self.pattern_parameter is not None:
+                    restrictions.append(self.pattern_parameter)
+                if self.fraction_parameter is not None:
+                    restrictions.append(float(self.fraction_parameter))
+                elif self.max_calls_parameter is not None:
+                    restrictions.append(int(self.max_calls_parameter))
+                elif self.pattern_parameter is None:
                     restrictions.append(.2)
                 stats.sort_stats(mode).print_stats(*restrictions)
                 return text_response(response, out.getvalue())
