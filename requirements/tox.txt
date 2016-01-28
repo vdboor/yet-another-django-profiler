@@ -9,11 +9,11 @@ greenlet==0.4.9
 # detox -> tox
 pluggy==0.3.1
 py==1.4.31
-virtualenv==13.1.2
+virtualenv==14.0.1
 
 # detox
-eventlet==0.17.4
-tox==2.2.1
+eventlet==0.18.1
+tox==2.3.1
 
 # And now the direct dependencies
 
