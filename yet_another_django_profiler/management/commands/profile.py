@@ -14,6 +14,7 @@ import atexit
 import cProfile
 import marshal
 from optparse import make_option
+import os
 import pstats
 import subprocess
 import sys
@@ -135,8 +136,12 @@ def output_results(profiler, options, stdout):
             stats.write(marshal.dumps(profiler.stats))
             stats.flush()
             cmd = ('gprof2dot.py -f pstats {} | dot -Tpdf'.format(stats.name))
+            # Get a copy of the existing environment.
+            env = os.environ.copy()
+            # Add the PYTHONPATH using the existing python system path.
+            env['PYTHONPATH'] = os.pathsep.join(sys.path)
             process = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-                                       stdout=subprocess.PIPE)
+                                       stdout=subprocess.PIPE, env=env)
             output = process.communicate()[0]
             return_code = process.poll()
             if return_code:
