@@ -12,12 +12,8 @@ from __future__ import unicode_literals
 
 import cProfile
 import logging
-import marshal
 import os
 import pstats
-import subprocess
-import sys
-import tempfile
 
 try:
     from unittest import mock
@@ -29,6 +25,7 @@ from django.utils.six.moves import cStringIO as StringIO
 from django.utils.translation import ugettext as _
 
 from .conf import settings
+from .utils import run_gprof2dot
 
 log = logging.getLogger(__name__)
 
@@ -179,20 +176,9 @@ class ProfilerMiddleware(object):
                     return text_response(response, _('Could not find "dot" from Graphviz; please install Graphviz to enable call graph generation'))
                 if not which('gprof2dot.py'):
                     return text_response(response, _('Could not find gprof2dot.py, which should have been installed by yet-another-django-profiler'))
-                with tempfile.NamedTemporaryFile() as stats:
-                    stats.write(marshal.dumps(self.profiler.stats))
-                    stats.flush()
-                    cmd = ('gprof2dot.py -f pstats {} | dot -Tpdf'.format(stats.name))
-                    # Get a copy of the existing environment.
-                    env = os.environ.copy()
-                    # Add the PYTHONPATH using the existing python system path.
-                    env['PYTHONPATH'] = os.pathsep.join(sys.path)
-                    process = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-                                               stdout=subprocess.PIPE, env=env)
-                    output = process.communicate()[0]
-                    return_code = process.poll()
-                    if return_code:
-                        raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code=return_code))
+                return_code, output = run_gprof2dot(self.profiler)
+                if return_code:
+                    raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code=return_code))
                 response.content = output
                 response['Content-Type'] = 'application/pdf'
                 return response

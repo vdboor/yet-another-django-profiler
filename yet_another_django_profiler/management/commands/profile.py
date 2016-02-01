@@ -12,13 +12,9 @@ from __future__ import unicode_literals
 
 import atexit
 import cProfile
-import marshal
 from optparse import make_option
-import os
 import pstats
-import subprocess
 import sys
-import tempfile
 
 try:
     from unittest import mock
@@ -33,6 +29,7 @@ from django.utils.six.moves import cStringIO as StringIO
 
 from yet_another_django_profiler.conf import settings
 from yet_another_django_profiler.middleware import func_strip_path, which
+from yet_another_django_profiler.utils import run_gprof2dot
 
 OPTIONS = (
     (('-o', '--output'), {'dest': 'path', 'help': 'Path to a file in which to store the profiling output (required if generating a call graph PDF, other results are output to the console by default)'}),
@@ -132,25 +129,14 @@ def output_results(profiler, options, stdout):
         if not which('gprof2dot.py'):
             stdout.write('Could not find gprof2dot.py, which should have been installed by yet-another-django-profiler')
             return
-        with tempfile.NamedTemporaryFile() as stats:
-            stats.write(marshal.dumps(profiler.stats))
-            stats.flush()
-            cmd = ('gprof2dot.py -f pstats {} | dot -Tpdf'.format(stats.name))
-            # Get a copy of the existing environment.
-            env = os.environ.copy()
-            # Add the PYTHONPATH using the existing python system path.
-            env['PYTHONPATH'] = os.pathsep.join(sys.path)
-            process = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-                                       stdout=subprocess.PIPE, env=env)
-            output = process.communicate()[0]
-            return_code = process.poll()
-            if return_code:
-                stdout.write('gprof2dot/dot exited with {}'.format(return_code))
-                return
-            path = options['path']
-            with open(path, 'wb') as pdf_file:
-                pdf_file.write(output)
-                stdout.write('Wrote call graph to {}'.format(path))
+        return_code, output = run_gprof2dot(profiler)
+        if return_code:
+            stdout.write('gprof2dot/dot exited with {}'.format(return_code))
+            return
+        path = options['path']
+        with open(path, 'wb') as pdf_file:
+            pdf_file.write(output)
+            stdout.write('Wrote call graph to {}'.format(path))
     else:
         sort = options['sort']
         if sort == 'file':

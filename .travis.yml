@@ -35,7 +35,7 @@ env:
   - TOX_ENV=pypy3-django17
   - TOX_ENV=pypy3-django18
   - TOX_ENV=docs
-  - TOX_ENV=flake8
+  - TOX_ENV=analyze
 install:
   - pip install tox==2.1.1
   - pip install coveralls==1.1
