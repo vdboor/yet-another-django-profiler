@@ -9,4 +9,4 @@ pyflakes==1.0.0
 
 # And now the direct dependencies
 
-flake8==2.5.1
+flake8==2.5.2

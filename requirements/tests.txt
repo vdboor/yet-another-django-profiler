@@ -42,13 +42,13 @@ ipdb==0.8.1; platform_python_implementation != 'PyPy'
 pytest-catchlog==1.2.2
 
 # For code coverage statistics generation
-pytest-cov==2.2.0
+pytest-cov==2.2.1
 
 # Django integration for test runner
 pytest-django==2.9.1
 
 # Parallel test execution support
-pytest-xdist==1.13.1
+pytest-xdist==1.14
 
 # For testing the Yappi profiler backend
 yappi==0.94; platform_python_implementation == 'CPython' and (python_version == '2.7' or (python_version > '3.2' and python_version < '3.5'))

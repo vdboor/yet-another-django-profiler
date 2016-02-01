@@ -1,7 +1,7 @@
 # Core dependencies
 
 # Python packaging utilities
-setuptools==19.6
+setuptools==19.6.2
 pip==8.0.2
 
 # Indirect dependencies first, exact versions for consistency
