@@ -99,6 +99,10 @@ sub-strings unless you really enjoy figuring out how to URL-escape special
 characters.) By default when using yappi it will use `cpu` clock type if
 what you want is `wall` time you can use ``clock=wall``.
 
+Views which return a StreamingHttpResponse can be profiled, but the profiling
+data stops at the return of the response from the view; the iteration over the
+content isn't profiled.
+
 If you forget the available sorting options and such, you can use
 ``profile=help`` as a request parameter to display the usage instructions in
 the browser.

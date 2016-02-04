@@ -46,9 +46,19 @@ def in_request(request, parameter):
     return False
 
 
+def set_content(response, content):
+    """Set the content of the provided response, whether or not it's streaming"""
+    if response.streaming:
+        # No point in consuming the previous iterator, the profiler has
+        # already stopped
+        response.streaming_content = [content]
+    else:
+        response.content = content
+
+
 def text_response(response, content):
     """Return a plain text message as the response content."""
-    response.content = content
+    set_content(response, content)
     response['Content-type'] = 'text/plain'
     return response
 
@@ -179,7 +189,7 @@ class ProfilerMiddleware(object):
                 return_code, output = run_gprof2dot(self.profiler)
                 if return_code:
                     raise Exception(_('gprof2dot.py exited with {return_code}').format(return_code=return_code))
-                response.content = output
+                set_content(response, output)
                 response['Content-Type'] = 'application/pdf'
                 return response
             elif mode == 'help':

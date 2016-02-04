@@ -111,6 +111,22 @@ class ParameterCases(object):
         response = self._get_test_page('profile=time&pattern=test')
         self.assertRegexpMatches(force_text(response.content, 'utf-8'), r"due to restriction <u?'test'>")
 
+    def test_streaming_call_graph(self):
+        """It should be possible to get a PDF call graph for a view which returns a StreamingHttpResponse"""
+        response = self._get_streaming_page('profile')
+        assert response['Content-Type'] == 'application/pdf'
+
+    def test_streaming_text(self):
+        """It should be possible to get text profiling data for a view which returns a StreamingHttpResponse"""
+        response = self._get_streaming_page('profile=time')
+        self.assertContains(response, 'Ordered by: internal time')
+
+    def _get_streaming_page(self, params=''):
+        url = reverse('test_streaming')
+        if params:
+            url += '?' + params
+        return self.client.get(url)
+
     def _get_test_page(self, params=''):
         url = reverse('test')
         if params:
