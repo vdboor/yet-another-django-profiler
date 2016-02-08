@@ -1,6 +1,16 @@
 yet-another-django-profiler Changelog
 =====================================
 
+1.0.3 (2016-02-08)
+------------------
+* Fixed profiling of Django admin pages (by removing profiling parameters
+  before executing the view)
+* Convert the PYTHONPATH to absolute paths for the subprocess used to run
+  gprof2dot when generating call graphs (fixes problems loading setting files,
+  etc.)
+* Correctly profile views which return a StreamingHttpResponse (up through
+  creation of the response, not including iteration over the content)
+
 1.0.2 (2015-12-08)
 ------------------
 * Support for Django 1.9
