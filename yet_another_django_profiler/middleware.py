@@ -39,11 +39,7 @@ def func_strip_path(func_name):
 def in_request(request, parameter):
     """Determine if the request contains the specified parameter, whether it's
     a GET or a POST."""
-    if request.method == 'GET':
-        return parameter in request.GET
-    if request.method == 'POST':
-        return parameter in request.POST
-    return False
+    return parameter in request.GET or parameter in request.POST
 
 
 def set_content(response, content):
@@ -127,7 +123,8 @@ class ProfilerMiddleware(object):
             raise MiddlewareNotUsed()
         self.error = None
         self.profiler = None
-        self.parameters = None
+        self.get_parameters = None
+        self.post_parameters = None
         self.clock_parameter = None
         self.fraction_parameter = None
         self.max_calls_parameter = None
@@ -137,23 +134,28 @@ class ProfilerMiddleware(object):
     def get_parameter(self, name):
         """Get the specified parameter from the request, whether it's a GET or a
         POST, and then removes it so it doesn't interfere with the view's
-        normal operation.  Returns `None` if it is not present."""
-        if self.parameters is None or name not in self.parameters:
-            return None
-        value = self.parameters.get(name, None)
-        self.parameters.pop(name)
-        return value
+        normal operation.  Returns `None` if it is not present.
+        Search in GET (and stop if found), then in POST."""
+        if self.get_parameters is not None and name in self.get_parameters:
+            value = self.get_parameters.get(name, None)
+            self.get_parameters.pop(name)
+            return value
+
+        if self.post_parameters is not None and name in self.post_parameters:
+            value = self.post_parameters.get(name, None)
+            self.post_parameters.pop(name)
+            return value
+
+        return None
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         self.profile_parameter = None
         if settings.YADP_ENABLED and in_request(request, settings.YADP_PROFILE_PARAMETER):
             self.error = None
-            if request.method == 'GET':
-                self.parameters = request.GET.copy()
-                request.GET = self.parameters
-            elif request.method == 'POST':
-                self.parameters = request.POST.copy()
-                request.POST = self.parameters
+            self.get_parameters = request.GET.copy()
+            request.GET = self.get_parameters
+            self.post_parameters = request.POST.copy()
+            request.POST = self.post_parameters
             self.fraction_parameter = self.get_parameter(settings.YADP_FRACTION_PARAMETER)
             self.max_calls_parameter = self.get_parameter(settings.YADP_MAX_CALLS_PARAMETER)
             self.pattern_parameter = self.get_parameter(settings.YADP_PATTERN_PARAMETER)
