@@ -9,35 +9,29 @@ addons:
       - python3.5
 python: 2.7
 env:
-  - TOX_ENV=py27-django15
-  - TOX_ENV=py27-django16
   - TOX_ENV=py27-django17
   - TOX_ENV=py27-django18
   - TOX_ENV=py27-django19
-  - TOX_ENV=py33-django15
-  - TOX_ENV=py33-django16
+  - TOX_ENV=py27-django110
   - TOX_ENV=py33-django17
   - TOX_ENV=py33-django18
-  - TOX_ENV=py34-django15
-  - TOX_ENV=py34-django16
   - TOX_ENV=py34-django17
   - TOX_ENV=py34-django18
   - TOX_ENV=py34-django19
+  - TOX_ENV=py34-django110
   - TOX_ENV=py35-django18
   - TOX_ENV=py35-django19
-  - TOX_ENV=pypy-django15
-  - TOX_ENV=pypy-django16
+  - TOX_ENV=py35-django110
   - TOX_ENV=pypy-django17
   - TOX_ENV=pypy-django18
   - TOX_ENV=pypy-django19
-  - TOX_ENV=pypy3-django15
-  - TOX_ENV=pypy3-django16
+  - TOX_ENV=pypy-django110
   - TOX_ENV=pypy3-django17
   - TOX_ENV=pypy3-django18
   - TOX_ENV=docs
   - TOX_ENV=analyze
 install:
-  - pip install tox==2.1.1
+  - pip install -r requirements/tox.txt
   - pip install coveralls==1.1
 script:
   - tox -e $TOX_ENV

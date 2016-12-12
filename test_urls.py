@@ -26,6 +26,7 @@ class StreamingView(View):
     def get(self, request, *args, **kwargs):
         return StreamingHttpResponse(('Line {}\n'.format(i + 1) for i in range(100)))
 
+
 if django.VERSION[0] == 1 and django.VERSION[1] < 7:
     admin.autodiscover()
 

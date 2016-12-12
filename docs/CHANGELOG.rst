@@ -1,6 +1,14 @@
 yet-another-django-profiler Changelog
 =====================================
 
+1.1.0 (2016-12-12)
+------------------
+* Added support for Django 1.10 (including the new ``MIDDLEWARE`` setting)
+* Dropped support for Django 1.5 and 1.6
+* Fixed profiling of management commands with arguments in Django 1.8+
+* Redirect stderr of the profiled command to be the same as the ``profile``
+  command's stderr
+
 1.0.3 (2016-02-08)
 ------------------
 * Fixed profiling of Django admin pages (by removing profiling parameters

@@ -47,11 +47,11 @@ First, get the code via pip install::
     pip install yet-another-django-profiler
 
 Then add ``yet_another_django_profiler.middleware.ProfilerMiddleware`` to your
-``MIDDLEWARE_CLASSES`` Django setting (typically at the end of the list, if
-you want to include profiling data on the other middleware that's in use).
-If you want to generate call graphs with the middleware, you also need to
-install `Graphviz <http://www.graphviz.org/Download.php>`_.  If you want to
-use the "profile" management command, you'll also need to add
+``MIDDLEWARE`` or ``MIDDLEWARE_CLASSES`` Django setting (typically at the end
+of the list, if you want to include profiling data on the other middleware
+that's in use).  If you want to generate call graphs with the middleware, you
+also need to install `Graphviz <http://www.graphviz.org/Download.php>`_.  If
+you want to use the "profile" management command, you'll also need to add
 ``yet_another_django_profiler`` to the ``INSTALLED_APPS`` setting.
 
 Middleware Usage
@@ -113,16 +113,18 @@ yet-another-django-profiler includes a ``profile`` management command which can
 be used to profile other Django management commands::
 
 
-    usage: manage.py profile [-h] [--version] [-v {0,1,2,3}] [--settings SETTINGS]
-                             [--pythonpath PYTHONPATH] [--traceback] [--no-color]
-                             [-o PATH] [-s SORT] [-f FRACTION] [-m MAX_CALLS]
-                             [-p PATTERN] [-b BACKEND] [-c CLOCK]
-                             [args [args ...]]
+    usage: manage.py profile [-h] [--version] [-v {0,1,2,3}]
+                             [--settings SETTINGS] [--pythonpath PYTHONPATH]
+                             [--traceback] [--no-color] [-o PATH] [-s SORT]
+                             [-f FRACTION] [-m MAX_CALLS] [-p PATTERN]
+                             [-b BACKEND] [-c CLOCK]
+                             other_command ...
 
     Profile another Django management command
 
     positional arguments:
-      args
+      other_command         The management command to be profiled
+      command_arguments     Arguments of the management command being profiled
 
     optional arguments:
       -h, --help            show this help message and exit
@@ -157,8 +159,6 @@ be used to profile other Django management commands::
                             Profiler backend to use (cProfile or yappi)
       -c CLOCK, --clock CLOCK
                             Yappi clock type to use (cpu or wall)
-
-
 
 Sample usage:
 

@@ -12,4 +12,4 @@ the ones that came before it.  Originally described at
 http://blog.safariflow.com/2013/11/21/profiling-django-via-middleware/
 """
 
-__version__ = (1, 0, 3)  # Update docs/CHANGELOG.rst if you increment the version
+__version__ = (1, 1, 0)  # Update docs/CHANGELOG.rst if you increment the version

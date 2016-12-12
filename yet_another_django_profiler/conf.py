@@ -104,4 +104,5 @@ class LazySettings(object):
         mod = import_module(mod_name)
         return getattr(mod, function_name)
 
+
 settings = LazySettings()
