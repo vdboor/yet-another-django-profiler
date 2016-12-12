@@ -1,7 +1,7 @@
 yet-another-django-profiler Changelog
 =====================================
 
-1.1.0 (2016-12-12)
+1.1.0 (2017-01-10)
 ------------------
 * Added support for Django 1.10 (including the new ``MIDDLEWARE`` setting)
 * Dropped support for Django 1.5 and 1.6
