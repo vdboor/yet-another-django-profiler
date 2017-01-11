@@ -16,6 +16,7 @@ import os
 import sys
 from tempfile import NamedTemporaryFile
 
+import django
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -116,15 +117,32 @@ class ManagementCommandCases(object):
     def _run_command(self, **options):
         """Run the profile command with the given options on the diffsettings command and capture the output"""
         output = StringIO()
-        options = options.copy()
-        options['backend'] = 'cProfile'
-        options['testing'] = True
-        for option in ('fraction', 'max_calls', 'path', 'pattern', 'sort'):
-            if option not in options:
-                options[option] = None
-        call_command('profile', 'diffsettings', stdout=output, **options)
+        error = StringIO()
+        args = []
+        if django.VERSION[0] == 1 and django.VERSION[1] < 8:
+            options = options.copy()
+            options['backend'] = 'cProfile'
+            options['testing'] = True
+            for option in ('fraction', 'max_calls', 'path', 'pattern', 'sort'):
+                if option not in options:
+                    options[option] = None
+            call_command('profile', 'diffsettings', stderr=error, stdout=output, **options)
+            expected = 'INSTALLED_APPS'
+        else:
+            for option in options:
+                if option in ('fraction', 'pattern', 'sort'):
+                    args.append('--{}={}'.format(option, options[option]))
+                elif option == 'max_calls':
+                    args.append('--max-calls={}'.format(options[option]))
+                elif option == 'path':
+                    args.append('--output={}'.format(options[option]))
+            args.append('showmigrations')
+            args.append('--plan')
+            options = {'backend': 'cProfile', 'testing': True, 'stderr': error, 'stdout': output}
+            call_command('profile', *args, **options)
+            expected = '0001_initial'
         text = output.getvalue()
-        assert 'INSTALLED_APPS' in text
+        assert expected in text
         return text
 
 

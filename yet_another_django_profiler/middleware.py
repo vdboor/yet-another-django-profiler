@@ -117,10 +117,11 @@ class ProfilerMiddleware(object):
     * https://bitbucket.org/brodie/geordi
     """
 
-    def __init__(self):
+    def __init__(self, get_response=None):
         if not settings.YADP_ENABLED:
             # Disable the middleware completely when YADP_ENABLED = False
             raise MiddlewareNotUsed()
+        self.get_response = get_response
         self.error = None
         self.profiler = None
         self.get_parameters = None
@@ -130,6 +131,10 @@ class ProfilerMiddleware(object):
         self.max_calls_parameter = None
         self.pattern_parameter = None
         self.profile_parameter = None
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        return self.process_response(request, response)
 
     def get_parameter(self, name):
         """Get the specified parameter from the request, whether it's a GET or a

@@ -16,6 +16,7 @@ def popen(cmd):
     args = shlex.split(cmd)
     return subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True).stdout
 
+
 diff = popen('git diff --name-only HEAD@{1} HEAD')
 changed_files = {filename.strip() for filename in diff}
 

@@ -1,4 +1,8 @@
+[report]
+show_missing = true
+
 [run]
 branch = true
+source = yet_another_django_profiler
 omit =
     */tests/*

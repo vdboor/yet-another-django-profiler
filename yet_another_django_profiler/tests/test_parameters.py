@@ -144,7 +144,8 @@ class CProfileTest(TestCase, ParameterCases):
         assert settings.YADP_PROFILER_BACKEND == 'cProfile'
 
 
-@pytest.mark.skipif(platform.python_implementation() != 'CPython' or sys.version_info[:2] in ((3, 2), (3, 5)),
+@pytest.mark.skipif(platform.python_implementation() != 'CPython' or
+                    (sys.version_info[0] == 3 and sys.version_info[1] > 4),
                     reason='yappi does not yet work in this Python implementation')
 @override_settings(YADP_ENABLED=True, YADP_PROFILER_BACKEND='yappi')
 class YappiTest(TestCase, ParameterCases):

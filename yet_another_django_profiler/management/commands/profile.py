@@ -10,6 +10,7 @@ Yet Another Django Profiler "profile" management command
 
 from __future__ import unicode_literals
 
+import argparse
 import atexit
 import cProfile
 from optparse import make_option
@@ -59,6 +60,9 @@ class Command(BaseCommand):
         """Command line arguments for Django 1.8+"""
         for option in OPTIONS:
             parser.add_argument(*option[0], **option[1])
+        parser.add_argument('other_command', help='The management command to be profiled')
+        parser.add_argument(
+            'command_arguments', nargs=argparse.REMAINDER, help='Arguments of the management command being profiled')
 
     def create_parser(self, prog_name, subcommand):
         """
@@ -77,19 +81,22 @@ class Command(BaseCommand):
         Run and profile the specified management command with the provided
         arguments.
         """
-        if not len(args):
+        if not self.use_argparse and not len(args):
             self.print_help(sys.argv[0], 'profile')
             sys.exit(1)
         if not options['sort'] and not options['path']:
             self.stdout.write('Output file path is required for call graph generation')
             sys.exit(1)
 
-        command_name = args[0]
+        if self.use_argparse:
+            command_name = options['other_command']
+        else:
+            command_name = args[0]
         utility = ManagementUtility(sys.argv)
         command = utility.fetch_command(command_name)
         parser = command.create_parser(sys.argv[0], command_name)
         if self.use_argparse:
-            command_options = parser.parse_args(list(args[1:]))
+            command_options = parser.parse_args(options['command_arguments'])
             command_args = vars(command_options).pop('args', ())
         else:
             command_options, command_args = parser.parse_args(list(args[1:]))
@@ -107,7 +114,7 @@ class Command(BaseCommand):
 
         if 'testing' not in options:
             atexit.register(output_results, profiler, options, self.stdout)
-        profiler.runcall(call_command, command_name, *command_args,
+        profiler.runcall(call_command, command_name, *command_args, stderr=self.stderr,
                          stdout=self.stdout, **vars(command_options))
         if 'testing' in options:
             output_results(profiler, options, self.stdout)
