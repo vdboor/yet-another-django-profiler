@@ -1,6 +1,11 @@
 yet-another-django-profiler Changelog
 =====================================
 
+1.1.1 (2017-08-31)
+------------------
+* Updating dependencies
+* Added support for Django 1.11
+
 1.1.0 (2017-01-10)
 ------------------
 * Added support for Django 1.10 (including the new ``MIDDLEWARE`` setting)
