@@ -44,6 +44,7 @@ def in_request(request, parameter):
 
 def set_content(response, content):
     """Set the content of the provided response, whether or not it's streaming"""
+    del response['Content-length']  # Make sure the response is not truncated
     if response.streaming:
         # No point in consuming the previous iterator, the profiler has
         # already stopped
