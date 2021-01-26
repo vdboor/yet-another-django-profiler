@@ -21,8 +21,8 @@ except ImportError:
     import mock
 
 from django.core.exceptions import MiddlewareNotUsed
-from django.utils.six.moves import cStringIO as StringIO
 from django.utils.translation import ugettext as _
+from six.moves import cStringIO as StringIO
 
 from .conf import settings
 from .utils import run_gprof2dot

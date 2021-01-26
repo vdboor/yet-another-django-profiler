@@ -20,8 +20,8 @@ import django
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.utils.six.moves import cStringIO as StringIO
 from django.utils.text import force_text
+from six.moves import cStringIO as StringIO
 
 import pytest
 

@@ -26,7 +26,7 @@ import django
 from django.conf import settings as django_settings
 from django.core.management import call_command, ManagementUtility
 from django.core.management.base import BaseCommand
-from django.utils.six.moves import cStringIO as StringIO
+from six.moves import cStringIO as StringIO
 
 from yet_another_django_profiler.conf import settings
 from yet_another_django_profiler.middleware import func_strip_path, which
